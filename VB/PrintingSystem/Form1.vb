@@ -1,14 +1,15 @@
-﻿Imports System
+Imports System
 Imports System.Windows.Forms
-#Region "#usings"
+'#Region "#usings"
 Imports System.Drawing.Printing
 Imports DevExpress.XtraPrinting
 Imports DevExpress.XtraRichEdit
 Imports DevExpress.XtraRichEdit.API.Native
-#End Region ' #usings
 
+'#End Region  ' #usings
 Namespace RichEdit_PrintingSystem
-    Partial Public Class Form1
+
+    Public Partial Class Form1
         Inherits Form
 
         Public Sub New()
@@ -16,22 +17,21 @@ Namespace RichEdit_PrintingSystem
             richEditControl1.LoadDocument("test.docx", DocumentFormat.OpenXml)
         End Sub
 
-
-        Private Sub btn_PrintControlWithOptions_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btn_PrintControlWithOptions.Click
+        Private Sub btn_PrintControlWithOptions_Click(ByVal sender As Object, ByVal e As EventArgs)
             richEditControl1.BeginUpdate()
             SetPrintOptions(richEditControl1)
             richEditControl1.EndUpdate()
             richEditControl1.Print()
         End Sub
 
-        Private Sub btn_PrintControlViaPrintingLink_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btn_PrintControlViaPrintingLink.Click
+        Private Sub btn_PrintControlViaPrintingLink_Click(ByVal sender As Object, ByVal e As EventArgs)
             richEditControl1.BeginUpdate()
             SetPrintOptions(richEditControl1)
             richEditControl1.EndUpdate()
             PrintViaLink(richEditControl1)
         End Sub
 
-        #Region "#setprintoptions"
+'#Region "#setprintoptions"
         Private Shared Sub SetPrintOptions(ByVal richedit As IRichEditDocumentServer)
             For Each _section As Section In richedit.Document.Sections
                 _section.Page.PaperKind = System.Drawing.Printing.PaperKind.A4
@@ -42,19 +42,19 @@ Namespace RichEdit_PrintingSystem
                 _section.Margins.Bottom = 200F
                 _section.PageNumbering.NumberingFormat = NumberingFormat.CardinalText
                 _section.PageNumbering.FirstPageNumber = 0
-            Next _section
+            Next
         End Sub
-        #End Region ' #setprintoptions
 
-        #Region "#printvialink"
+'#End Region  ' #setprintoptions
+'#Region "#printvialink"
         Private Shared Sub PrintViaLink(ByVal srv As IPrintable)
-            Dim link As New PrintableComponentLink(New PrintingSystem())
+            Dim link As PrintableComponentLink = New PrintableComponentLink(New PrintingSystem())
             link.Component = srv
             ' Disable warnings.
             link.PrintingSystem.ShowMarginsWarning = False
             link.PrintingSystem.ShowPrintStatusDialog = False
             ' Find a printer containing Canon in its name
-            Dim settings As New PrinterSettings()
+            Dim settings As PrinterSettings = New PrinterSettings()
             Dim printerName As String = String.Empty
             For i As Integer = 0 To PrinterSettings.InstalledPrinters.Count - 1
                 Dim pName As String = PrinterSettings.InstalledPrinters(i)
@@ -62,11 +62,11 @@ Namespace RichEdit_PrintingSystem
                     printerName = pName
                     Exit For
                 End If
-            Next i
+            Next
+
             ' Print to the specified printer.
             link.Print(printerName)
         End Sub
-        #End Region ' #printvialink
-
+'#End Region  ' #printvialink
     End Class
 End Namespace
