@@ -38,7 +38,7 @@ namespace RichEdit_PrintingSystem
         private static void SetPrintOptions(IRichEditDocumentServer richedit)
         {
             foreach (Section _section in richedit.Document.Sections) {
-                _section.Page.PaperKind = System.Drawing.Printing.PaperKind.A4;
+                _section.Page.PaperKind = DevExpress.Drawing.Printing.DXPaperKind.A4; 
                 _section.Page.Landscape = true;
                 _section.Margins.Left = 500f;
                 _section.Margins.Right = 500f;
